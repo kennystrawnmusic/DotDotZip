@@ -1,8 +1,17 @@
 from zipfile import ZipFile
 from argparse import ArgumentParser
+from tomlib import load as toml_load
+
+def version_from_pyproject_toml():
+    try:
+        with open("pyproject.toml", "rb") as f:
+            pyproject_data = toml_load(f)
+            return pyproject_data.get("tool", {}).get("poetry", {}).get("version", "Unknown")
+    except FileNotFoundError:
+        return "Unknown"
 
 def main():
-    parser = ArgumentParser(description="DotDotZip v. 1.0")
+    parser = ArgumentParser(description=f"DotDotZip v. {version_from_pyproject_toml()}")
     
     parser.add_argument("--traverse-count", type=int, default=5, help="Number of '../' sequences to prepend")
     parser.add_argument("--zip-name", type=str, required=True, help="Name of the output ZIP archive")

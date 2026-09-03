@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "dotdotzip"
-version = "0.1.0"
+version = "0.2.0"
 description = "A utility for generating \"zip slip\" payloads for testing zip file extraction vulnerabilities."
 
 [project.scripts]
