@@ -4,6 +4,7 @@ import base64
 from zipfile import ZipFile
 from argparse import ArgumentParser
 from io import BytesIO
+from importlib import metadata
 
 def version_from_pyproject_toml():
     try:
@@ -13,8 +14,14 @@ def version_from_pyproject_toml():
     except FileNotFoundError:
         return "Unknown"
 
+def version_redundant():
+    try:
+        return metadata.version(__package__)
+    except metadata.PackageNotFoundError:
+        return version_from_pyproject_toml()
+
 def main():
-    parser = ArgumentParser(description=f"DotDotZip v. {version_from_pyproject_toml()}")
+    parser = ArgumentParser(description=f"DotDotZip v. {version_redundant()}")
     
     parser.add_argument("--traverse-count", type=int, default=5, help="Number of '../' sequences to prepend")
     parser.add_argument("--zip-name", type=str, help="Name of the output ZIP archive (leave blank to output Base64 encoded ZIP to the console)")

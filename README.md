@@ -16,7 +16,7 @@ usage: dotdotzip.py [-h] [--traverse-count TRAVERSE_COUNT]
                     [--zip-name ZIP_NAME] --prepend-path PREPEND_PATH
                     --pack-files PACK_FILES [PACK_FILES ...]
 
-DotDotZip v. 0.2.3
+DotDotZip v. 0.2.4
 
 options:
   -h, --help            show this help message and exit
