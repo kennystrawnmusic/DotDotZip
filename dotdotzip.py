@@ -1,12 +1,12 @@
+import tomllib
 from zipfile import ZipFile
 from argparse import ArgumentParser
-from tomlib import load as toml_load
 
 def version_from_pyproject_toml():
     try:
         with open("pyproject.toml", "rb") as f:
-            pyproject_data = toml_load(f)
-            return pyproject_data.get("tool", {}).get("poetry", {}).get("version", "Unknown")
+            pyproject_data = tomllib.load(f)
+            return pyproject_data.get("project", {}).get("version", "Unknown")
     except FileNotFoundError:
         return "Unknown"
 
