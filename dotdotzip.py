@@ -25,7 +25,7 @@ def main():
     with ZipFile(args.zip_name, 'w') as zf:
         for file_name in args.pack_files:
             try:
-                zf.write(file_name, arcname=f"{traverse_str}{args.prepend_path}{file_name}")
+                zf.write(file_name, arcname=f"{traverse_str}{args.prepend_path}/{file_name}")
             except FileNotFoundError:
                 print(f"Error: The file '{file_name}' does not exist.")
 
