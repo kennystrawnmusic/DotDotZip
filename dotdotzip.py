@@ -17,6 +17,8 @@ def version_from_pyproject_toml():
 def version_redundant():
     try:
         return metadata.version(__package__)
+    except ValueError:
+        return version_from_pyproject_toml()
     except metadata.PackageNotFoundError:
         return version_from_pyproject_toml()
 
