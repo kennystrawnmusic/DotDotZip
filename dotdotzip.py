@@ -22,8 +22,8 @@ def version_redundant():
     except metadata.PackageNotFoundError:
         return version_from_pyproject_toml()
 
-def create_payload(zip_name, traverse_count, prepend_path, pack_files):
-    with ZipFile(zip_name, 'w') as zf:
+def create_payload(zip_target, traverse_count, prepend_path, pack_files):
+    with ZipFile(zip_target, mode='w') as zf:
         traverse_str = '../' * traverse_count
         for file_name in pack_files:
             try:
