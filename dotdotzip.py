@@ -41,13 +41,13 @@ def main():
     
     args = parser.parse_args()
     
-    if not args.zip_name:
+    if args.zip_name:
+        create_payload(args.zip_name, args.traverse_count, args.prepend_path, args.pack_files)
+    else:
         with BytesIO() as zip_buffer:
             create_payload(zip_buffer, args.traverse_count, args.prepend_path, args.pack_files)
             zip_buffer.seek(0)
             print(base64.b64encode(zip_buffer.read()).decode('utf-8'))
-    else:
-        create_payload(args.zip_name, args.traverse_count, args.prepend_path, args.pack_files)
 
 if __name__ == '__main__':
     main()
