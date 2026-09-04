@@ -41,8 +41,6 @@ def main():
     
     args = parser.parse_args()
     
-    traverse_str = '../'*args.traverse_count
-    
     if not args.zip_name:
         with BytesIO() as zip_buffer:
             create_payload(zip_buffer, args.traverse_count, args.prepend_path, args.pack_files)
